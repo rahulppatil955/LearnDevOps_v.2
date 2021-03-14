@@ -6,12 +6,14 @@ wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-
 rpm -ivh jdk-8u141-linux-x64.rpm
 
 #install tomcat
-wget https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.63/bin/apache-tomcat-8.5.63.zip
-unzip apache-tomcat-8.5.63.zip
-cd /tmp/apache-tomcat-8.5.63
+TOMCAT_VER=`curl --silent http://mirror.vorboss.net/apache/tomcat/tomcat-8/ | grep v8 | awk '{split($5,c,">v") ; split(c[2],d,"/") ; print d[1]}'`
+wget -N http://mirror.vorboss.net/apache/tomcat/tomcat-8/v${TOMCAT_VER}/bin/apache-tomcat-${TOMCAT_VER}.zip
+unzip apache-tomcat-${TOMCAT_VER}.zip
+cd /tmp/apache-tomcat-${TOMCAT_VER}
 mkdir /local/apps/tomcat -p
 mv * /local/apps/tomcat
 chmod 755 /local/apps/tomcat/bin/*
+
 #Create start and stop script
 cat <<EOF > /local/apps/tomcat/start_tomcat.sh
 JAVA_HOME=/usr/java/jdk1.8.0_141

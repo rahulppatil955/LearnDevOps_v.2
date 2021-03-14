@@ -1,0 +1,10 @@
+#git url of application - https://github.com/tciaindiadevops/TestWebApp.git
+
+#Download source code
+--> use git plugin
+
+#compile source code
+mvn clean install
+
+#deploy app
+cp $WORKSPACE/webapp/target/webapp.war /local/apps/tomcat/webapps/
