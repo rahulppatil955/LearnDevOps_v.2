@@ -1,0 +1,51 @@
+XYZ Ltd. is a multinational company and it has multiple applications for multiple products. You are working as DevOps engineer in XYZ company. 
+
+XYZ Ltd, recently take over a small entity which has 2 application BATA and TATA. This entity has on premise setup. Now after take over XYZ Ltd decided to move this setup to AWS cloud. 
+
+You need to create 4 environment, DEV, QA, DR, PROD, where these application will get deployed.
+1. Create DEV and PROD vpc in us-east-2 region as per given in US-EAST-2.png 
+2. Create QA and DR vpc in us-west-2 region as per given in US-WEST-2.png
+	Note : You can create this manually in AWS but I will prefer you create cloudformation templete which will
+	accept below parameter and will create VPC as per the parameter.
+	a) VPC NAME
+	b) VPC CIDR
+	c) Public subnet CIDR
+
+You need to create Jenkins server from where application team can perform below activity.
+1) Spin new ec2 instance
+	This ci/cd should ask 3 parameter
+	  a) selection of application (BATA/TATA)
+	  b) selection of environment (DEV,QA,DR,PROD)
+	  c) No. of server need to spin
+	Note - BATA application will have amazon linux AMI and TATA application will have ubuntu AMI.
+	
+2) Get new server ready for application
+    This ci/cd should ask IP address of the application server.
+   Note - We have only one java application so run this against BATA application server.
+   
+3) Deploy application.
+    This ci/cd should ask IP address of the application server.
+	Note - application git url - https://github.com/indorenilesh/TestWebApp.git. Use "basicform" branch.
+	Note - We have only one java application so run this against BATA application server.
+	
+Consider below things while creating jenkins server.
+1) Jenkins should be running with Jenkins user.
+2) Create customized jenkins startup and stop script.
+3) You should login with your id in jenkins(Not with default user.) 
+
+Note - consider ec2-user as a application user. Authentication done with PEM file only.
+
+Tips
+-----
+First create all VPC as per given region and other details.
+
+Major part is ansible script used in background of all 3 ci/cd pipeline. 
+
+So first create ansible script which will spin ec2 instance and will consider AMI and Subnet as per parameter provided.
+i.e. if I provide application as BATA and environment as DEV, then ec2 instance should get created in public subnet of DEV vpc with amazon linux.
+
+Once you able to create above scripts, upload it in git, and create ci/cd pipeline which will download this code and execute ansible script. Use ansible plugin in pipeline.
+
+In second ci/cd, create required directory structure, environment variables and install requried software which is required to run java application.
+
+In thrid ci/cd, you have already done this while learning jenkins, so I guess you already know this. 
